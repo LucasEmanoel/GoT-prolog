@@ -71,6 +71,9 @@ mulher(rhaenys_targaryen).
 mulher(sansa_stark).
 mulher(stark_desconhecida).
 
+child(X, Y) :-
+	gerou(Y, X).
+
 filha(X, Y) :-
 	gerou(Y, X),
 	mulher(X).
@@ -79,6 +82,16 @@ filho(X, Y) :-
 	gerou(Y, X),
 	homem(X).
 
+%lista de filhos
+
+filhos(X, Filhos) :-
+	setof(Y, gerou(X,Y), Filhos),
+	!.
+
+filhos(X, Filhos) :-
+	not(setof(Y, gerou(X,Y), Filhos)),		
+	Filhos = none.							
+
 mae(X, Y) :-
 	gerou(X, Y),
 	mulher(X).
@@ -86,50 +99,37 @@ mae(X, Y) :-
 pai(X, Y) :-
 	gerou(X, Y),
 	homem(X).
-	
-irmandade(X, Y) :-
+
+%quem sao os pais
+
+pais(X, Pais) :-
+	setof(Y, gerou(Y, X), Pais),
+	!.
+
+pais(X, Pais) :-
+	not(setof(Y, gerou(Y, X), Pais)),		
+	Pais = unknown.								
+
+familia(X, Y) :-
 	gerou(Z, X),
 	gerou(Z, Y),
-	dif(X, Y).								
+	dif(X, Y).									
 
-list_irmandade(X, Irmaos) :-
-	setof(Y, irmandade(X,Y), Irmaos);			
+list_irmaos(X, Irmaos) :-
+	setof(Y, familia(X,Y), Irmaos);
 	Irmaos = none.							
 
-irmandades(X, Y) :-
-	list_irmandades(X, Irmaos),
+irmaos(X, Y) :-
+	list_irmaos(X, Irmaos),
 	member(Y, Irmaos).						
 												
 irma(X, Y) :-
-	irmandades(X, Y),
-	female(X).
+	irmaos(X, Y),
+	mulher(X).
 
 irmao(X, Y) :-
-	irmandades(X, Y),
-	male(X).
+	irmaos(X, Y),
+	homem(X).
 
-relationship(X, Y) :-
-	mae(X, Y),
-	format("~w e mae de ~w", [X, Y]), nl.
-
-relationship(X, Y) :-
-	pai(X, Y),
-	format("~w e pai de ~w", [X, Y]), nl.
-
-relationship(X, Y) :-
-	filho(X, Y),
-	format("~w e filho de ~w", [X, Y]), nl.
-
-relationship(X, Y) :-
-	filha(X, Y),
-	format("~w e filha de ~w", [X, Y]), nl.
-
-relationship(X, Y) :-
-	irma(X, Y),
-	format("~w is the sister of ~w", [X, Y]), nl.
-
-relationship(X, Y) :-
-	irmao(X, Y),
-	format("~w is the brother of ~w", [X, Y]), nl.
 
 

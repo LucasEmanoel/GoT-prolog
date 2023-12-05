@@ -92,13 +92,13 @@ irmandade(X, Y) :-
 	gerou(Z, Y),
 	dif(X, Y).								
 
-list_irmandade(X, Siblings) :-
-	setof(Y, irmandade(X,Y), Siblings);			
-	Siblings = none.							
+list_irmandade(X, Irmaos) :-
+	setof(Y, irmandade(X,Y), Irmaos);			
+	Irmaos = none.							
 
 irmandades(X, Y) :-
-	list_irmandades(X, Siblings),
-	member(Y, Siblings).						
+	list_irmandades(X, Irmaos),
+	member(Y, Irmaos).						
 												
 irma(X, Y) :-
 	irmandades(X, Y),

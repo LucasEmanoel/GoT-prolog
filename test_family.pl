@@ -2,7 +2,7 @@
 
 test(gerou) :-
     gerou(eddard_stark, sansa_stark),
-    \+ gerou(rhaenys_targaryen, sansa_stark). % \+ negacao
+    \+ gerou(rhaenys_targaryen, sansa_stark).
 
 test(irma) :-
     irma(arya_stark, sansa_stark),
@@ -14,11 +14,10 @@ test(irmao) :-
     \+ irmao(jon_snow, daenerys_targaryen).
 
 test(filhos) :-
-    filhos( eddard_stark, [arya_stark, bran_stark, rickon_stark, robb_stark, sansa_stark]).
-    \+filhos( eddard_stark, [arya_stark, bran_stark, rickon_stark, robb_stark, jon_snow]).
+    filhos(eddard_stark, [arya_stark, bran_stark, rickon_stark, robb_stark, sansa_stark]),
+    \+ filhos(eddard_stark, [arya_stark, bran_stark, rickon_stark, robb_stark, jon_snow]).
 
 :- end_tests(families).
 
-run_tests :- run_tests(families). 
-
-:- run_tests.
+% Para rodar os testes, use esta linha fora do bloco de testes ou como consulta interativa:
+% :- run_tests(families).
